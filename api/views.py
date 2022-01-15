@@ -18,7 +18,7 @@ class UUIDView(APIView):
 
     def get(self, request):
         lagos = pytz.timezone('Africa/Lagos')
-        time_stamp = datetime.datetime.now(tz=lagos).isoformat(sep=" ")
+        time_stamp = datetime.datetime.now(tz=lagos).replace(tzinfo=None).isoformat(sep=" ")
         uuid_value = uuid.uuid4().hex
         data = {
             "time_stamp": time_stamp,
