@@ -26,7 +26,9 @@ See Docker version [here](https://github.com/Akandeav/uuid_api_docker)
 ```python manage.py migrate```
 3. Start Django server.  
 ```python manage.py runserver```
-4. Access API at ```http://localhost:8000/api/uuid``` or ```127.0.0.1``` in place of localhost.
+4. Access API at ```http://localhost:8000/api/uuid``` or ```127.0.0.1``` in place of localhost.  
+*OR  
+```GET``` ```http://localhost:8000/api/uuid```
 
 ## Support
 - If you are familar with django you can set up your environment on your own without conda. see ```environment.yml``` file
