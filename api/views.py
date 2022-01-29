@@ -7,6 +7,16 @@ from django.shortcuts import render
 from .serializers import UUIDSerializer
 from rest_framework.views import APIView
 
+def get_data():
+    lagos = pytz.timezone('Africa/Lagos')
+    time_stamp = datetime.datetime.now(tz=lagos).replace(tzinfo=None).isoformat(sep=" ")
+    uuid_value = uuid.uuid4().hex
+    data = {
+        "time_stamp": time_stamp,
+        "uuid": uuid_value
+    }
+    return data
+
 class UUIDView(APIView):
     """
     Randomly generates UUID
@@ -17,13 +27,7 @@ class UUIDView(APIView):
     """
 
     def get(self, request):
-        lagos = pytz.timezone('Africa/Lagos')
-        time_stamp = datetime.datetime.now(tz=lagos).replace(tzinfo=None).isoformat(sep=" ")
-        uuid_value = uuid.uuid4().hex
-        data = {
-            "time_stamp": time_stamp,
-            "uuid": uuid_value
-        }
+        data = get_data()
         serializer = UUIDSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
