@@ -17,7 +17,7 @@ class UUIDView(APIView):
         new_entry = UUIDValue()
         new_entry.save()
         queryset = UUIDValue.objects.all().order_by('-time_stamp') # Get queryset, sort by timestamp and order by newest entry
-        timestamps = [query.time_stamp for query in queryset]
+        timestamps = [str(query.time_stamp) for query in queryset]
         uuids = [query.uuid for query in queryset]
 
         response.data = {k:v for k, v in zip(timestamps, uuids)}
