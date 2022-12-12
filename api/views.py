@@ -1,4 +1,4 @@
-import requests, datetime
+import requests
 from .models import UUIDValue
 from rest_framework.views import APIView
 from rest_framework.response import Response
