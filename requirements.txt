@@ -1,0 +1,6 @@
+asgiref==3.4.1
+django==3.2.5
+djangorestframework==3.12.4
+pytz
+sqlparse==0.4.1
+requests
