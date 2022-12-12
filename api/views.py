@@ -1,21 +1,7 @@
-import json, pytz
-import requests, uuid, datetime
+import requests, datetime
 from .models import UUIDValue
-from django.utils import timezone
-from django.http import JsonResponse
-from django.shortcuts import render
-from .serializers import UUIDSerializer
 from rest_framework.views import APIView
-
-def get_data():
-    lagos = pytz.timezone('Africa/Lagos')
-    time_stamp = datetime.datetime.now(tz=lagos).replace(tzinfo=None).isoformat(sep=" ")
-    uuid_value = uuid.uuid4().hex
-    data = {
-        "time_stamp": time_stamp,
-        "uuid": uuid_value
-    }
-    return data
+from rest_framework.response import Response
 
 class UUIDView(APIView):
     """
@@ -27,12 +13,13 @@ class UUIDView(APIView):
     """
 
     def get(self, request):
-        data = get_data()
-        serializer = UUIDSerializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        all_uuid = UUIDValue.objects.all().values("time_stamp", "uuid").order_by('-time_stamp')
-        out = {}
-        for i in all_uuid:
-            out[i['time_stamp']] = i['uuid']
-        return JsonResponse(out, json_dumps_params={"indent":4})
+        response = Response()
+        new_entry = UUIDValue()
+        new_entry.save()
+        queryset = UUIDValue.objects.all().order_by('-time_stamp') # Get queryset, sort by timestamp and order by newest entry
+        timestamps = [query.time_stamp for query in queryset]
+        uuids = [query.uuid for query in queryset]
+
+        response.data = {k:v for k, v in zip(timestamps, uuids)}
+        response.status_code = 200
+        return response
